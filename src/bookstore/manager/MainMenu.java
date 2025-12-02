@@ -10,9 +10,6 @@ import javax.swing.JOptionPane;
  */
 public class MainMenu extends javax.swing.JFrame {
 
-    /**
-     * Creates new form MainMenu
-     */
     public MainMenu() {
         initComponents();
         setLocationRelativeTo(null); // Center the form
@@ -39,6 +36,21 @@ public class MainMenu extends javax.swing.JFrame {
                 lblTotalAset.setText(total == null ? "0" : "Rp " + total);
             }
             r.close();
+            
+            // Total Penulis (Unique Authors)
+            r = s.executeQuery("SELECT COUNT(DISTINCT penulis) FROM buku");
+            if (r.next()) {
+                lblTotalPenulis.setText(r.getString(1));
+            }
+            r.close();
+            
+            // Total Penerbit (Unique Publishers)
+            r = s.executeQuery("SELECT COUNT(DISTINCT penerbit) FROM buku");
+            if (r.next()) {
+                lblTotalPenerbit.setText(r.getString(1));
+            }
+            r.close();
+            
             s.close();
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "Gagal memuat data dashboard: " + e.getMessage());
@@ -59,9 +71,16 @@ public class MainMenu extends javax.swing.JFrame {
         panelAset = new javax.swing.JPanel();
         jLabel3 = new javax.swing.JLabel();
         lblTotalAset = new javax.swing.JLabel();
+        panelPenulis = new javax.swing.JPanel();
+        jLabel4 = new javax.swing.JLabel();
+        lblTotalPenulis = new javax.swing.JLabel();
+        panelPenerbit = new javax.swing.JPanel();
+        jLabel5 = new javax.swing.JLabel();
+        lblTotalPenerbit = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Main Menu - BookStore Manager");
+        setResizable(false);
 
         jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(255, 255, 255));
@@ -124,7 +143,7 @@ public class MainMenu extends javax.swing.JFrame {
             .addGroup(panelAsetLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(panelAsetLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, 188, Short.MAX_VALUE)
+                    .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, 138, Short.MAX_VALUE)
                     .addComponent(lblTotalAset, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
@@ -134,7 +153,75 @@ public class MainMenu extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(jLabel3)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(lblTotalAset, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(lblTotalAset, javax.swing.GroupLayout.DEFAULT_SIZE, 68, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+
+        panelPenulis.setBackground(new java.awt.Color(255, 255, 255));
+        panelPenulis.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 255, 255), 2));
+
+        jLabel4.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jLabel4.setForeground(new java.awt.Color(51, 153, 255));
+        jLabel4.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel4.setText("Total Penulis");
+
+        lblTotalPenulis.setFont(new java.awt.Font("Segoe UI", 1, 36)); // NOI18N
+        lblTotalPenulis.setForeground(new java.awt.Color(51, 153, 255));
+        lblTotalPenulis.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lblTotalPenulis.setText("0");
+
+        javax.swing.GroupLayout panelPenulisLayout = new javax.swing.GroupLayout(panelPenulis);
+        panelPenulis.setLayout(panelPenulisLayout);
+        panelPenulisLayout.setHorizontalGroup(
+            panelPenulisLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panelPenulisLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(panelPenulisLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, 138, Short.MAX_VALUE)
+                    .addComponent(lblTotalPenulis, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
+        );
+        panelPenulisLayout.setVerticalGroup(
+            panelPenulisLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panelPenulisLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel4)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(lblTotalPenulis, javax.swing.GroupLayout.DEFAULT_SIZE, 68, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+
+        panelPenerbit.setBackground(new java.awt.Color(255, 255, 255));
+        panelPenerbit.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 255, 255), 2));
+
+        jLabel5.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jLabel5.setForeground(new java.awt.Color(51, 153, 255));
+        jLabel5.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel5.setText("Total Penerbit");
+
+        lblTotalPenerbit.setFont(new java.awt.Font("Segoe UI", 1, 36)); // NOI18N
+        lblTotalPenerbit.setForeground(new java.awt.Color(51, 153, 255));
+        lblTotalPenerbit.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lblTotalPenerbit.setText("0");
+
+        javax.swing.GroupLayout panelPenerbitLayout = new javax.swing.GroupLayout(panelPenerbit);
+        panelPenerbit.setLayout(panelPenerbitLayout);
+        panelPenerbitLayout.setHorizontalGroup(
+            panelPenerbitLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panelPenerbitLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(panelPenerbitLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel5, javax.swing.GroupLayout.DEFAULT_SIZE, 138, Short.MAX_VALUE)
+                    .addComponent(lblTotalPenerbit, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
+        );
+        panelPenerbitLayout.setVerticalGroup(
+            panelPenerbitLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panelPenerbitLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel5)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(lblTotalPenerbit, javax.swing.GroupLayout.DEFAULT_SIZE, 68, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -169,7 +256,11 @@ public class MainMenu extends javax.swing.JFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(panelBuku, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
-                        .addComponent(panelAset, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(panelAset, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(panelPenulis, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(panelPenerbit, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(btnDataBuku, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap(50, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
@@ -183,9 +274,11 @@ public class MainMenu extends javax.swing.JFrame {
                 .addGap(30, 30, 30)
                 .addComponent(jLabel1)
                 .addGap(30, 30, 30)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(panelBuku, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(panelAset, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(panelBuku, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(panelAset, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(panelPenulis, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(panelPenerbit, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(30, 30, 30)
                 .addComponent(btnDataBuku, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 50, Short.MAX_VALUE)
@@ -212,9 +305,15 @@ public class MainMenu extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel lblTotalAset;
     private javax.swing.JLabel lblTotalBuku;
+    private javax.swing.JLabel lblTotalPenerbit;
+    private javax.swing.JLabel lblTotalPenulis;
     private javax.swing.JPanel panelAset;
     private javax.swing.JPanel panelBuku;
+    private javax.swing.JPanel panelPenerbit;
+    private javax.swing.JPanel panelPenulis;
     // End of variables declaration
 }
