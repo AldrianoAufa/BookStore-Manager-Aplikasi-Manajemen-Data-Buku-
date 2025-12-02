@@ -8,6 +8,7 @@ import java.io.FileWriter;
 import java.io.File;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
+import javax.swing.JComboBox;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -45,7 +46,41 @@ public class BookForm extends javax.swing.JFrame {
         try {
             Connection c = Koneksi.configDB();
             Statement s = c.createStatement();
-            String sql = "SELECT * FROM buku";
+            
+            // Base SQL
+            String sql = "SELECT * FROM buku WHERE 1=1";
+            
+            // Filter Logic
+            if (cmbFilter != null && cmbFilter.getSelectedItem() != null) {
+                String filter = cmbFilter.getSelectedItem().toString();
+                if (filter.equals("< 50.000")) {
+                    sql += " AND harga < 50000";
+                } else if (filter.equals("50.000 - 100.000")) {
+                    sql += " AND harga BETWEEN 50000 AND 100000";
+                } else if (filter.equals("> 100.000")) {
+                    sql += " AND harga > 100000";
+                }
+            }
+            
+            // Search Logic (if search text exists)
+            if (txtCari != null && !txtCari.getText().isEmpty()) {
+                sql += " AND (judul LIKE '%" + txtCari.getText() + "%' OR penulis LIKE '%" + txtCari.getText() + "%')";
+            }
+            
+            // Sort Logic
+            if (cmbSort != null && cmbSort.getSelectedItem() != null) {
+                String sort = cmbSort.getSelectedItem().toString();
+                if (sort.equals("Harga Termurah")) {
+                    sql += " ORDER BY harga ASC";
+                } else if (sort.equals("Harga Termahal")) {
+                    sql += " ORDER BY harga DESC";
+                } else if (sort.equals("Tahun Terbaru")) {
+                    sql += " ORDER BY tahun DESC";
+                } else if (sort.equals("Tahun Terlama")) {
+                    sql += " ORDER BY tahun ASC";
+                }
+            }
+            
             ResultSet r = s.executeQuery(sql);
             
             while (r.next()) {
@@ -104,6 +139,8 @@ public class BookForm extends javax.swing.JFrame {
         txtCari = new javax.swing.JTextField();
         btnCari = new javax.swing.JButton();
         btnExport = new javax.swing.JButton();
+        cmbSort = new javax.swing.JComboBox<>();
+        cmbFilter = new javax.swing.JComboBox<>();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Kelola Data Buku - BookStore Manager");
@@ -207,6 +244,20 @@ public class BookForm extends javax.swing.JFrame {
             }
         });
 
+        cmbSort.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Urutkan...", "Harga Termurah", "Harga Termahal", "Tahun Terbaru", "Tahun Terlama" }));
+        cmbSort.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cmbSortActionPerformed(evt);
+            }
+        });
+
+        cmbFilter.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Semua Harga", "< 50.000", "50.000 - 100.000", "> 100.000" }));
+        cmbFilter.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cmbFilterActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -243,7 +294,11 @@ public class BookForm extends javax.swing.JFrame {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addComponent(btnCari)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(btnExport)))))
+                                .addComponent(btnExport)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(cmbSort, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(cmbFilter, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)))))
                 .addGap(20, 20, 20))
             .addGroup(layout.createSequentialGroup()
                 .addGap(20, 20, 20)
@@ -268,7 +323,9 @@ public class BookForm extends javax.swing.JFrame {
                     .addComponent(jLabel7)
                     .addComponent(txtCari, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnCari)
-                    .addComponent(btnExport))
+                    .addComponent(btnExport)
+                    .addComponent(cmbSort, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(cmbFilter, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
@@ -396,31 +453,7 @@ public class BookForm extends javax.swing.JFrame {
     }
 
     private void btnCariActionPerformed(java.awt.event.ActionEvent evt) {
-        model.getDataVector().removeAllElements();
-        model.fireTableDataChanged();
-        
-        try {
-            Connection c = Koneksi.configDB();
-            Statement s = c.createStatement();
-            String sql = "SELECT * FROM buku WHERE judul LIKE '%" + txtCari.getText() + "%' OR penulis LIKE '%" + txtCari.getText() + "%'";
-            ResultSet r = s.executeQuery(sql);
-            
-            while (r.next()) {
-                Object[] o = new Object[6];
-                o[0] = r.getString("id");
-                o[1] = r.getString("judul");
-                o[2] = r.getString("penulis");
-                o[3] = r.getString("penerbit");
-                o[4] = r.getString("harga");
-                o[5] = r.getString("tahun");
-                
-                model.addRow(o);
-            }
-            r.close();
-            s.close();
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, "Gagal Cari Data: " + e.getMessage());
-        }
+        loadData();
     }
 
     private void btnExportActionPerformed(java.awt.event.ActionEvent evt) {
@@ -457,6 +490,14 @@ public class BookForm extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(null, "Gagal Export: " + e.getMessage());
             }
         }
+    }
+
+    private void cmbSortActionPerformed(java.awt.event.ActionEvent evt) {
+        loadData();
+    }
+
+    private void cmbFilterActionPerformed(java.awt.event.ActionEvent evt) {
+        loadData();
     }
 
     private void tableBukuMouseClicked(java.awt.event.MouseEvent evt) {
@@ -499,5 +540,7 @@ public class BookForm extends javax.swing.JFrame {
     private javax.swing.JTextField txtPenerbit;
     private javax.swing.JTextField txtPenulis;
     private javax.swing.JTextField txtTahun;
+    private javax.swing.JComboBox<String> cmbSort;
+    private javax.swing.JComboBox<String> cmbFilter;
     // End of variables declaration
 }
