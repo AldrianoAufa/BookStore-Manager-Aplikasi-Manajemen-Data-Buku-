@@ -23,6 +23,7 @@ public class BookForm extends javax.swing.JFrame {
     public BookForm() {
         initComponents();
         setLocationRelativeTo(null);
+        getContentPane().setBackground(new java.awt.Color(51, 153, 255)); // Blue Background
         
         // Initialize Table Model
         model = new DefaultTableModel();
@@ -107,17 +108,23 @@ public class BookForm extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Kelola Data Buku - BookStore Manager");
 
-        jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
+        jLabel1.setForeground(new java.awt.Color(255, 255, 255));
         jLabel1.setText("DATA BUKU");
 
+        jLabel2.setForeground(new java.awt.Color(255, 255, 255));
         jLabel2.setText("Judul Buku");
 
+        jLabel3.setForeground(new java.awt.Color(255, 255, 255));
         jLabel3.setText("Penulis");
 
+        jLabel4.setForeground(new java.awt.Color(255, 255, 255));
         jLabel4.setText("Penerbit");
 
+        jLabel5.setForeground(new java.awt.Color(255, 255, 255));
         jLabel5.setText("Harga");
 
+        jLabel6.setForeground(new java.awt.Color(255, 255, 255));
         jLabel6.setText("Tahun Terbit");
 
         txtId.setEditable(false);
@@ -141,6 +148,7 @@ public class BookForm extends javax.swing.JFrame {
         });
         jScrollPane1.setViewportView(tableBuku);
 
+        btnSimpan.setBackground(new java.awt.Color(102, 255, 102));
         btnSimpan.setText("Simpan");
         btnSimpan.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -148,6 +156,7 @@ public class BookForm extends javax.swing.JFrame {
             }
         });
 
+        btnEdit.setBackground(new java.awt.Color(255, 255, 102));
         btnEdit.setText("Edit");
         btnEdit.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -155,6 +164,8 @@ public class BookForm extends javax.swing.JFrame {
             }
         });
 
+        btnHapus.setBackground(new java.awt.Color(255, 102, 102));
+        btnHapus.setForeground(new java.awt.Color(255, 255, 255));
         btnHapus.setText("Hapus");
         btnHapus.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -169,6 +180,8 @@ public class BookForm extends javax.swing.JFrame {
             }
         });
 
+        btnKembali.setBackground(new java.awt.Color(255, 255, 255));
+        btnKembali.setForeground(new java.awt.Color(51, 153, 255));
         btnKembali.setText("Kembali ke Menu");
         btnKembali.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -176,6 +189,7 @@ public class BookForm extends javax.swing.JFrame {
             }
         });
 
+        jLabel7.setForeground(new java.awt.Color(255, 255, 255));
         jLabel7.setText("Cari Buku");
 
         btnCari.setText("Cari");
@@ -185,6 +199,7 @@ public class BookForm extends javax.swing.JFrame {
             }
         });
 
+        btnExport.setBackground(new java.awt.Color(204, 204, 255));
         btnExport.setText("Export CSV");
         btnExport.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {

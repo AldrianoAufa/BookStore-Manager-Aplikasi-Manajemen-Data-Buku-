@@ -11,6 +11,7 @@ public class MainMenu extends javax.swing.JFrame {
     public MainMenu() {
         initComponents();
         setLocationRelativeTo(null); // Center the form
+        getContentPane().setBackground(new java.awt.Color(51, 153, 255)); // Blue Background
     }
 
     /**
@@ -26,10 +27,13 @@ public class MainMenu extends javax.swing.JFrame {
         setTitle("Main Menu - BookStore Manager");
 
         jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
+        jLabel1.setForeground(new java.awt.Color(255, 255, 255));
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel1.setText("BOOKSTORE MANAGER");
 
-        btnDataBuku.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        btnDataBuku.setBackground(new java.awt.Color(255, 255, 255));
+        btnDataBuku.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        btnDataBuku.setForeground(new java.awt.Color(51, 153, 255));
         btnDataBuku.setText("Kelola Data Buku");
         btnDataBuku.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -37,6 +41,9 @@ public class MainMenu extends javax.swing.JFrame {
             }
         });
 
+        btnLogout.setBackground(new java.awt.Color(255, 102, 102));
+        btnLogout.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        btnLogout.setForeground(new java.awt.Color(255, 255, 255));
         btnLogout.setText("Logout");
         btnLogout.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
